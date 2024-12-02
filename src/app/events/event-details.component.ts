@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from './event.service';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common'
 
 @Component({
   selector: 'app-event-details',
@@ -14,11 +14,26 @@ export class EventDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadEventDetails();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.eventService.getEventById(+id).subscribe({
+        next: (data) => {
+          this.event = data;
+        },
+        error: (err) => {
+          console.error('Error fetching event details:', err);
+        },
+      });
+    }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/events']);
   }
 
   loadEventDetails(): void {
@@ -37,6 +52,36 @@ export class EventDetailsComponent implements OnInit {
       });
     } else {
       console.error('Invalid event ID:', eventId);
+    }
+  }
+
+  updateEvent(): void {
+    const updatedEvent = {
+      ...this.event,
+      title: `${this.event.title} (Updated)` // Example update
+    };
+    this.eventService.updateEvent(this.event.event_id, updatedEvent).subscribe({
+      next: () => {
+        console.log('Event updated successfully');
+        this.event = updatedEvent; // Update local view
+      },
+      error: (err) => {
+        console.error('Error updating event:', err);
+      },
+    });
+  }
+
+  deleteEvent(): void {
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.eventService.deleteEvent(this.event.event_id).subscribe({
+        next: () => {
+          console.log('Event deleted successfully');
+          this.router.navigate(['/events']);
+        },
+        error: (err) => {
+          console.error('Error deleting event:', err);
+        },
+      });
     }
   }
 }
