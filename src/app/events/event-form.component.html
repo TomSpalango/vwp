@@ -1,24 +1,17 @@
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="title">Title:</label>
-      <input id="title" formControlName="title" />
-    </div>
+<h2>Create a New Event</h2>
+<form (ngSubmit)="onSubmit()">
+    <label for="title">Title:</label>
+    <input id="title" name="title" [(ngModel)]="event.title" required />
   
-    <div>
-      <label for="description">Description:</label>
-      <textarea id="description" formControlName="description"></textarea>
-    </div>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" [(ngModel)]="event.description" required></textarea>
   
-    <div>
-      <label for="location">Location:</label>
-      <input id="location" formControlName="location" />
-    </div>
+    <label for="location">Location:</label>
+    <input id="location" name="location" [(ngModel)]="event.location" required />
   
-    <div>
-      <label for="event_date">Date:</label>
-      <input id="event_date" type="date" formControlName="event_date" />
-    </div>
+    <label for="event_date">Event Date:</label>
+    <input type="date" id="event_date" name="event_date" [(ngModel)]="event.event_date" required />
   
-    <button type="submit" [disabled]="eventForm.invalid">Save</button>
+    <button type="submit">Create Event</button>
   </form>
-  
+  <button (click)="goBack()">Back to Events</button>

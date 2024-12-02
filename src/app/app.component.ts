@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
   template: `
     <nav>
       <a routerLink="/events" routerLinkActive="active">Events</a>
-      <a routerLink="/events/new" routerLinkActive="active">Create Event</a>
+      <a routerLink="/events/create" routerLinkActive="active">Create Event</a>
     </nav>
     <router-outlet></router-outlet>
   `,
