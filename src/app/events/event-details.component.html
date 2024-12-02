@@ -1,14 +1,47 @@
-<div *ngIf="event; else loading">
-    <h2>Event Details</h2>
-    <p><strong>Title:</strong> {{ event.title }}</p>
-    <p><strong>Description:</strong> {{ event.description }}</p>
-    <p><strong>Location:</strong> {{ event.location }}</p>
-    <p><strong>Date:</strong> {{ event.event_date | date }}</p>
-    <button (click)="goBack()">Back to Events</button>
-    <button (click)="updateEvent()">Update Event</button>
-    <button (click)="deleteEvent()">Delete Event</button>
-</div>
-
-<ng-template #loading>
+<div *ngIf="event">
+    <h2 *ngIf="!isEditing">Event Details</h2>
+    <h2 *ngIf="isEditing">Update Event</h2>
+  
+    <!-- View Mode -->
+    <div *ngIf="!isEditing">
+      <p><strong>Title:</strong> {{ event.title }}</p>
+      <p><strong>Description:</strong> {{ event.description }}</p>
+      <p><strong>Location:</strong> {{ event.location }}</p>
+      <p><strong>Date:</strong> {{ event.event_date | date: 'yyyy-MM-dd' }}</p>
+      <button (click)="toggleEditMode()">Update Event</button>
+      <button (click)="goBack()">Back to Events</button>
+    </div>
+  
+    <!-- Edit Mode -->
+    <div *ngIf="isEditing">
+        <form (submit)="onSubmitUpdate($event)">
+        <label>
+          Title:
+          <input type="text" [(ngModel)]="event.title" name="title" required />
+        </label>
+        <br />
+        <label>
+          Description:
+          <textarea [(ngModel)]="event.description" name="description" required></textarea>
+        </label>
+        <br />
+        <label>
+          Location:
+          <input type="text" [(ngModel)]="event.location" name="location" required />
+        </label>
+        <br />
+        <label>
+          Date:
+          <input type="date" [(ngModel)]="event.event_date" name="event_date" required />
+        </label>
+        <br />
+        <button type="submit">Submit Update</button>
+        <button type="button" (click)="cancelUpdate()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  
+  <div *ngIf="!event">
     <p>Loading event details...</p>
-</ng-template>
+  </div>
+  
