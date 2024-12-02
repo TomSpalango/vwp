@@ -1,0 +1,24 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="title">Title:</label>
+      <input id="title" formControlName="title" />
+    </div>
+  
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+  
+    <div>
+      <label for="location">Location:</label>
+      <input id="location" formControlName="location" />
+    </div>
+  
+    <div>
+      <label for="event_date">Date:</label>
+      <input id="event_date" type="date" formControlName="event_date" />
+    </div>
+  
+    <button type="submit" [disabled]="eventForm.invalid">Save</button>
+  </form>
+  

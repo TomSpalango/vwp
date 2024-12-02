@@ -1,0 +1,14 @@
+<div *ngIf="events && events.length > 0; else noEvents">
+    <h2>Available Events</h2>
+    <ul>
+      <li *ngFor="let event of events">
+        <strong>{{ event.title }}</strong>
+        <p>{{ event.location }} - {{ event.event_date }}</p>
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #noEvents>
+    <p>No events available. Please create a new event.</p>
+  </ng-template>
+  

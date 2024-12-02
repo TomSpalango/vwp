@@ -3,7 +3,7 @@ export interface Event {
     title: string;
     description: string;
     location: string;
-    event_date: Date;
-    created_at: Date;
+    event_date: string;
+    created_at: string;
   }
   

@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "backend": "npx tsx src/index.ts",
+    "frontend": "ng serve --o",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -25,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^19.0.1",
     "@angular/router": "^19.0.1",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mysql2": "^3.11.4",
@@ -32,11 +34,13 @@
     "zone.js": "^0.15.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jasmine": "^5.1.5",
     "@types/node": "^22.9.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
 }

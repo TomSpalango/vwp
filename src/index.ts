@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import dbRoutes from './routes/index';
 import userRoutes from './routes/users';
 import eventsRoutes from './routes/events';
@@ -9,6 +10,10 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors({
+  origin: 'http://localhost:4200', // Allow requests from the frontend
+}));
 
 app.use(express.json());
 
