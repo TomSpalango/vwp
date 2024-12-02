@@ -1,9 +1,10 @@
-<div *ngIf="events && events.length > 0; else noEvents">
+<div *ngIf="events.length > 0; else noEvents">
     <h2>Available Events</h2>
     <ul>
       <li *ngFor="let event of events">
-        <strong>{{ event.title }}</strong>
-        <p>{{ event.location }} - {{ event.event_date }}</p>
+        <span>{{ event.title }}</span> 
+        <a [routerLink]="['/events', event.event_id]" style="margin-left: 10px;">(Details)</a>
+        <p>{{ event.location }} - {{ event.event_date | date }}</p>
       </li>
     </ul>
   </div>
