@@ -1,10 +1,9 @@
 <div *ngIf="event; else loading">
-    <h2>{{ event.title }}</h2>
+    <h2>Event Details</h2>
+    <p><strong>Title:</strong> {{ event.title }}</p>
     <p><strong>Description:</strong> {{ event.description }}</p>
     <p><strong>Location:</strong> {{ event.location }}</p>
-    <p><strong>Date:</strong> {{ event.event_date }}</p>
-    <p><strong>Created At:</strong> {{ event.created_at }}</p>
-    <button (click)="goBack()">Back</button>
+    <p><strong>Date:</strong> {{ event.event_date | date }}</p>
   </div>
   
   <ng-template #loading>

@@ -1,46 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EventService } from './event.service';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-details',
+  templateUrl: './event-details.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <div class="container mt-3">
-      <h2>Event Details</h2>
-      <div *ngIf="event">
-        <p><strong>Title:</strong> {{ event.title }}</p>
-        <p><strong>Description:</strong> {{ event.description || 'No description available' }}</p>
-        <p><strong>Date:</strong> {{ event.event_date }}</p>
-        <p><strong>Created At:</strong> {{ event.created_at }}</p>
-      </div>
-      <div *ngIf="!event">
-        <p>Loading event details...</p>
-      </div>
-      <button class="btn btn-primary" routerLink="/">Back to Events</button>
-    </div>
-  `
+  imports: [CommonModule, JsonPipe],
 })
 export class EventDetailsComponent implements OnInit {
-  event: any = null;
+  event: any;
 
   constructor(
-    private eventService: EventService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private eventService: EventService
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadEventDetails(+id);
-    }
+    this.loadEventDetails();
   }
 
-  loadEventDetails(id: number): void {
-    this.eventService.getEventById(id).subscribe((data) => {
-      this.event = data;
-    });
+  loadEventDetails(): void {
+    const eventId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('Fetching details for event ID:', eventId);
+  
+    if (eventId) {
+      this.eventService.getEventById(eventId).subscribe({
+        next: (data) => {
+          console.log('Fetched event details:', data); // Check this log
+          this.event = data; // Ensure this assignment is happening
+        },
+        error: (err) => {
+          console.error('Error fetching event details:', err);
+        },
+      });
+    } else {
+      console.error('Invalid event ID:', eventId);
+    }
   }
 }

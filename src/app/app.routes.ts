@@ -8,4 +8,5 @@ export const routes: Routes = [
     { path: 'events/create', component: EventFormComponent },
     { path: 'events/:id', component: EventDetailsComponent },
     { path: '', redirectTo: '/events', pathMatch: 'full' },
+    { path: '**', redirectTo: '/events', pathMatch: 'full' }
   ];  
