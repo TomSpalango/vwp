@@ -2,37 +2,38 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from './event.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
 })
 export class EventDetailsComponent implements OnInit {
-  event: any = {};
-  isEditing = false; // Toggle between view and edit mode
+  event: any;
+  updatedEvent: any = {}; // Initialize with an empty object to avoid undefined errors
+  isEditing: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadEventDetails();
+    const eventId = +this.route.snapshot.paramMap.get('id')!;
+    this.loadEvent(eventId);
   }
 
-  loadEventDetails(): void {
-    const eventId = Number(this.route.snapshot.paramMap.get('id'));
-    this.eventService.getEventById(eventId).subscribe({
+  loadEvent(id: number): void {
+    this.eventService.getEventById(id).subscribe({
       next: (data) => {
+        console.log('Event details loaded:', data);
         this.event = data;
-        console.log('Event details loaded:', this.event);
+        this.updatedEvent = { ...data }; // Copy data to avoid two-way binding issues
       },
-      error: (err) => {
-        console.error('Error loading event details:', err);
-      },
+      error: (err) => console.error('Error loading event:', err)
     });
   }
 
@@ -40,24 +41,21 @@ export class EventDetailsComponent implements OnInit {
     this.isEditing = !this.isEditing;
   }
 
-  onSubmitUpdate(event: Event): void {
-    event.preventDefault();
-    console.log('Updated event data being sent:', this.event);
-    this.eventService.updateEvent(this.event.event_id, this.event).subscribe({
-      next: (updatedEvent) => {
-        console.log('Event updated successfully:', updatedEvent);
+  onSubmitUpdate(): void {
+    console.log('Submitting update:', this.updatedEvent);
+    this.eventService.updateEvent(this.event.event_id, this.updatedEvent).subscribe({
+      next: () => {
+        console.log('Event updated successfully');
         this.isEditing = false;
-        this.loadEventDetails();
+        this.loadEvent(this.event.event_id); // Reload updated event data
       },
-      error: (err) => {
-        console.error('Error updating event:', err);
-      }
+      error: (err) => console.error('Error updating event:', err)
     });
   }
-  
+
   cancelUpdate(): void {
     this.isEditing = false;
-    this.loadEventDetails();
+    this.updatedEvent = { ...this.event }; // Reset changes
   }
 
   goBack(): void {

@@ -23,9 +23,11 @@ export class EventService {
   }
 
   updateEvent(id: number, event: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, event);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, event, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
-
+  
   deleteEvent(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
