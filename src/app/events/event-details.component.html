@@ -4,38 +4,43 @@
 
   <!-- View Mode -->
   <div *ngIf="!isEditing">
-      <p><strong>Title:</strong> {{ event.title }}</p>
-      <p><strong>Description:</strong> {{ event.description }}</p>
-      <p><strong>Location:</strong> {{ event.location }}</p>
-      <p><strong>Date:</strong> {{ event.event_date | date: 'yyyy-MM-dd' }}</p>
-      <button (click)="toggleEditMode()">Update Event</button>
-      <button (click)="goBack()">Back to Events</button>
+    <p><strong>Title:</strong> {{ event.title }}</p>
+    <p><strong>Description:</strong> {{ event.description }}</p>
+    <p><strong>Location:</strong> {{ event.location }}</p>
+    <p><strong>Date:</strong> {{ event.event_date }}</p>
+    <button (click)="toggleEditMode()">Update Event</button>
+    <button (click)="goBack()">Back to Events</button>
+    <button (click)="confirmDelete()">Delete Event</button>
   </div>
 
   <!-- Edit Mode -->
   <div *ngIf="isEditing">
     <form (ngSubmit)="onSubmitUpdate()">
-      <label>Title:
-        <input type="text" [(ngModel)]="updatedEvent.title" name="title" required />
+      <label>
+        Title:
+        <input type="text" [(ngModel)]="updatedEvent.title" name="title" />
       </label>
       <br />
-      <label>Description:
-        <textarea [(ngModel)]="updatedEvent.description" name="description" required></textarea>
+      <label>
+        Description:
+        <textarea [(ngModel)]="updatedEvent.description" name="description"></textarea>
       </label>
       <br />
-      <label>Location:
-        <input type="text" [(ngModel)]="updatedEvent.location" name="location" required />
+      <label>
+        Location:
+        <input type="text" [(ngModel)]="updatedEvent.location" name="location" />
       </label>
       <br />
-      <label>Date:
-        <input type="date" [(ngModel)]="updatedEvent.event_date" name="event_date" required />
+      <label>
+        Date:
+        <input type="date" [(ngModel)]="updatedEvent.event_date" name="event_date" />
       </label>
       <br />
       <button type="submit">Submit Update</button>
       <button type="button" (click)="cancelUpdate()">Cancel</button>
     </form>
   </div>
-  
+</div>
 
 <div *ngIf="!event">
   <p>Loading event details...</p>

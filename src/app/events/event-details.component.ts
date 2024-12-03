@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class EventDetailsComponent implements OnInit {
   event: any;
-  updatedEvent: any = {}; // Initialize with an empty object to avoid undefined errors
+  updatedEvent: any = {}; 
   isEditing: boolean = false;
 
   constructor(
@@ -31,7 +31,7 @@ export class EventDetailsComponent implements OnInit {
       next: (data) => {
         console.log('Event details loaded:', data);
         this.event = data;
-        this.updatedEvent = { ...data }; // Copy data to avoid two-way binding issues
+        this.updatedEvent = { ...data };
       },
       error: (err) => console.error('Error loading event:', err)
     });
@@ -47,7 +47,7 @@ export class EventDetailsComponent implements OnInit {
       next: () => {
         console.log('Event updated successfully');
         this.isEditing = false;
-        this.loadEvent(this.event.event_id); // Reload updated event data
+        this.loadEvent(this.event.event_id);
       },
       error: (err) => console.error('Error updating event:', err)
     });
@@ -55,7 +55,24 @@ export class EventDetailsComponent implements OnInit {
 
   cancelUpdate(): void {
     this.isEditing = false;
-    this.updatedEvent = { ...this.event }; // Reset changes
+    this.updatedEvent = { ...this.event };
+  }
+
+  confirmDelete(): void {
+    const userConfirmed = confirm('Are you sure you want to delete this event?');
+    if (userConfirmed) {
+      this.deleteEvent();
+    }
+  }
+  
+  deleteEvent(): void {
+    this.eventService.deleteEvent(this.event.event_id).subscribe({
+      next: () => {
+        console.log('Event deleted successfully');
+        this.router.navigate(['/events']);
+      },
+      error: (err) => console.error('Error deleting event:', err)
+    });
   }
 
   goBack(): void {
