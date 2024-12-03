@@ -5,5 +5,4 @@ export interface Event {
     location: string;
     event_date: string;
     created_at: string;
-  }
-  
+  }  

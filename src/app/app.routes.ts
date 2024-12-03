@@ -9,4 +9,4 @@ export const routes: Routes = [
     { path: 'events/:id', component: EventDetailsComponent },
     { path: '', redirectTo: '/events', pathMatch: 'full' },
     { path: '**', redirectTo: '/events', pathMatch: 'full' }
-  ];  
+  ];
